@@ -1,3 +1,10 @@
+## [1.1.4](https://github.com/PremierStudio/ai-hooks/compare/v1.1.3...v1.1.4) (2026-02-14)
+
+
+### Bug Fixes
+
+* resolve adapter registry singleton duplication and add dynamic versioning ([1c0941b](https://github.com/PremierStudio/ai-hooks/commit/1c0941b39fd6b3f37ca92bf0164d6ca6c098c7b9))
+
 ## [1.1.3](https://github.com/PremierStudio/ai-hooks/compare/v1.1.2...v1.1.3) (2026-02-14)
 
 

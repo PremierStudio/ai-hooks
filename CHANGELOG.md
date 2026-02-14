@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/PremierStudio/ai-hooks/compare/v1.0.7...v1.1.0) (2026-02-14)
+
+
+### Features
+
+* consolidate all adapters and CLI into single package ([91afad6](https://github.com/PremierStudio/ai-hooks/commit/91afad6abf0dc399319f59f6c520ec15571ab202))
+
 ## [1.0.6](https://github.com/PremierStudio/ai-hooks/compare/v1.0.5...v1.0.6) (2026-02-13)
 
 

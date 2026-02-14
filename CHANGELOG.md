@@ -1,3 +1,10 @@
+## [1.1.3](https://github.com/PremierStudio/ai-hooks/compare/v1.1.2...v1.1.3) (2026-02-14)
+
+
+### Bug Fixes
+
+* use OIDC trusted publisher for workspace publish auth ([3120dc8](https://github.com/PremierStudio/ai-hooks/commit/3120dc8609d402e874c0db48ced568bca89cdf66))
+
 ## [1.1.2](https://github.com/PremierStudio/ai-hooks/compare/v1.1.1...v1.1.2) (2026-02-14)
 
 

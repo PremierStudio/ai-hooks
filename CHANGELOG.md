@@ -1,3 +1,10 @@
+## [1.1.7](https://github.com/PremierStudio/ai-hooks/compare/v1.1.6...v1.1.7) (2026-02-14)
+
+
+### Bug Fixes
+
+* use globalThis singleton for adapter registry to survive module duplication ([48d3ae7](https://github.com/PremierStudio/ai-hooks/commit/48d3ae70f75b0ea0e1a8a4b22849b9300e6fea1a))
+
 ## [1.1.6](https://github.com/PremierStudio/ai-hooks/compare/v1.1.5...v1.1.6) (2026-02-14)
 
 

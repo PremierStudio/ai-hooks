@@ -414,9 +414,7 @@ export async function ensureAuthenticated(serverUrl: string): Promise<StoredAuth
     return refreshed;
   } catch {
     // Refresh failed — client may have been revoked on the server
-    p.log.warn(
-      "Token refresh failed. The client may have been removed from the server.",
-    );
+    p.log.warn("Token refresh failed. The client may have been removed from the server.");
     await clearAuth();
     return login(serverUrl);
   }

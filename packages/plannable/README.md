@@ -32,17 +32,17 @@ npx @premierstudio/plannable remove          # Clean removal
 
 ## Supported AI Tools
 
-| Tool | Detection | MCP | Hooks |
-|------|-----------|-----|-------|
-| Claude Code | `.claude/` directory or `claude` CLI | Yes | Yes |
-| Cursor | `.cursor/` directory | Yes | Yes |
-| Gemini CLI | `gemini` CLI | Yes | Planned |
-| Codex | `codex` CLI | Yes | Planned |
-| Cline | `.cline/` directory | Yes | Planned |
-| Kiro | `.kiro/` directory | Yes | Planned |
-| Amp | `amp` CLI | Yes | Planned |
-| OpenCode | `.opencode/` directory | Yes | Planned |
-| Droid | `droid` CLI | Yes | Planned |
+| Tool        | Detection                            | MCP | Hooks   |
+| ----------- | ------------------------------------ | --- | ------- |
+| Claude Code | `.claude/` directory or `claude` CLI | Yes | Yes     |
+| Cursor      | `.cursor/` directory                 | Yes | Yes     |
+| Gemini CLI  | `gemini` CLI                         | Yes | Planned |
+| Codex       | `codex` CLI                          | Yes | Planned |
+| Cline       | `.cline/` directory                  | Yes | Planned |
+| Kiro        | `.kiro/` directory                   | Yes | Planned |
+| Amp         | `amp` CLI                            | Yes | Planned |
+| OpenCode    | `.opencode/` directory               | Yes | Planned |
+| Droid       | `droid` CLI                          | Yes | Planned |
 
 ## What Are PM-AI Hooks?
 

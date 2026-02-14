@@ -1,3 +1,10 @@
+## [1.1.8](https://github.com/PremierStudio/ai-hooks/compare/v1.1.7...v1.1.8) (2026-02-14)
+
+
+### Bug Fixes
+
+* pin internal workspace deps to release version during publish ([9429701](https://github.com/PremierStudio/ai-hooks/commit/942970183c940b80c623a0edfb0792fadb784df6))
+
 ## [1.1.7](https://github.com/PremierStudio/ai-hooks/compare/v1.1.6...v1.1.7) (2026-02-14)
 
 

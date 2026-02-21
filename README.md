@@ -1,98 +1,139 @@
-# ai-hooks
+# ai-tools
 
 ![Node.js >=22](https://img.shields.io/badge/node-%3E%3D22-339933?logo=node.js&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white)
 ![100% Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
 ![License MIT](https://img.shields.io/badge/license-MIT-16A34A)
 
-**Universal hook engine for AI coding tools. Write policy once — enforce it everywhere, or let external systems drive it.**
+**Universal configuration and runtime engine for AI coding tools. Define once — works everywhere.**
 
-`ai-hooks` is an open-source framework for portable guardrails, audit trails, and runtime control across AI coding tools. Define hooks in one config and they work everywhere — Claude Code, Codex, Gemini CLI, Cursor, Kiro, Cline, and more. Or use it as a library to let external platforms programmatically steer the AI client a developer is using.
+`ai-tools` is a monorepo of engines that manage hooks, MCP servers, agents, skills, and rules across 13 AI coding tools. Write your configuration once and adapters translate it into the native format each tool expects.
 
-## The problem
+## Why
 
-AI coding tools are proliferating, and every team hits the same wall:
+Every AI coding tool has its own format for hooks, MCP servers, agents, skills, and rules. If you use more than one tool — or your team does — you're maintaining the same configuration in multiple places.
 
-- **No unified policy layer.** Each tool has its own hook format, so guardrails get duplicated, drift, and break silently.
-- **No external control plane.** If you need to programmatically steer the client a developer is using — set boundaries, collect signals, enforce workflow rules — there's no standard way to do it. You're locked into one vendor's API.
-- **Fragmented audit trails.** Shell commands, file writes, and tool calls are logged in different formats per tool, making compliance and debugging painful.
-- **Inconsistent enforcement.** Some tools can block dangerous actions before they happen; others can only observe after the fact. You need a framework that normalizes this.
+ai-tools lets you define each configuration surface once. Adapters translate it into the native format for every tool you use: Claude Code, Cursor, Copilot, Gemini CLI, and 9 others.
 
-## How ai-hooks solves it
-
-ai-hooks gives you a single policy engine that can steer any AI coding client with native hook support. Write rules once, and adapters translate them into the exact config format each tool understands. Block, observe, or redirect actions across every tool from one place.
+Five engines — one for each configuration surface — plus a unified CLI that orchestrates them all.
 
 ```mermaid
 graph TD
-    Config["<b>ai-hooks.config.ts</b><br/>Define once"]
-    Engine["Hook Engine<br/><i>middleware chain, priority, filters</i>"]
-    Platform["External Platform<br/><i>orchestrator, PM tool, CI system</i>"]
+    CLI["<b>ai-tools</b><br/>unified CLI"]
 
-    Config --> Engine
-    Platform -->|"library API"| Engine
+    CLI --> Hooks["<b>ai-hooks</b><br/>guardrails &amp; audit"]
+    CLI --> MCP["<b>ai-mcp</b><br/>MCP servers"]
+    CLI --> Agents["<b>ai-agents</b><br/>agent personas"]
+    CLI --> Skills["<b>ai-skills</b><br/>slash commands"]
+    CLI --> Rules["<b>ai-rules</b><br/>project rules"]
 
-    Engine -->|"adapters generate<br/>native configs"| native
-
-    subgraph native ["Hook-compatible clients — blocking + observation"]
+    subgraph tools ["13 AI coding tools"]
         CC["Claude Code"]
         Codex["Codex CLI"]
         Gemini["Gemini CLI"]
         Cursor["Cursor"]
         Kiro["Kiro"]
         OC["OpenCode"]
-        Droid["Factory Droid"]
-        Amp["Amp"]
         Cline["Cline"]
+        Amp["Amp"]
+        Droid["Factory Droid"]
+        Copilot["VS Code / Copilot"]
+        Continue["Continue"]
+        Roo["Roo Code"]
+        Windsurf["Windsurf"]
     end
 
-    style Config fill:#7c3aed,color:#fff,stroke:none
-    style Engine fill:#2563eb,color:#fff,stroke:none
-    style Platform fill:#059669,color:#fff,stroke:none
-    style native fill:#f0fdf4,stroke:#16a34a
+    Hooks --> tools
+    MCP --> tools
+    Agents --> tools
+    Skills --> tools
+    Rules --> tools
+
+    style CLI fill:#7c3aed,color:#fff,stroke:none
+    style Hooks fill:#2563eb,color:#fff,stroke:none
+    style MCP fill:#2563eb,color:#fff,stroke:none
+    style Agents fill:#2563eb,color:#fff,stroke:none
+    style Skills fill:#2563eb,color:#fff,stroke:none
+    style Rules fill:#2563eb,color:#fff,stroke:none
+    style tools fill:#f0fdf4,stroke:#16a34a
 ```
 
-**Two ways to use it:**
+## Packages
 
-1. **Config-driven** — Write an `ai-hooks.config.ts`, run `ai-hooks generate`, and adapters produce native hook configs for every detected tool. When the agent tries to run a shell command, write a file, or call a tool, your hooks fire natively inside the client — blocking dangerous actions, scanning for secrets, and logging everything before it happens.
-
-2. **Library / control plane** — Import the engine into your platform. Programmatically steer the AI client a developer is using — set boundaries, collect signals, and enforce workflow rules — all through a standard API that works regardless of which tool they're running.
+| Package | CLI | Description |
+|---------|-----|-------------|
+| [`@premierstudio/ai-tools`](packages/cli) | `ai-tools` | Unified CLI — routes to all engines |
+| [`@premierstudio/ai-hooks`](packages/hooks) | `ai-hooks` | Hook engine — guardrails, audit trails, runtime control |
+| [`@premierstudio/ai-mcp`](packages/mcp) | `ai-mcp` | MCP server configuration management |
+| [`@premierstudio/ai-agents`](packages/agents) | `ai-agents` | Agent persona definitions |
+| [`@premierstudio/ai-skills`](packages/skills) | `ai-skills` | Slash commands and prompt templates |
+| [`@premierstudio/ai-rules`](packages/rules) | `ai-rules` | Project rules with scoping and priority |
 
 ## Supported tools
 
-| Tool | Blocking | Observation | Events |
-|------|----------|-------------|--------|
-| [Claude Code](https://docs.anthropic.com/en/docs/claude-code) | Yes | Yes | 13 |
-| [Codex CLI](https://github.com/openai/codex) | Yes | Yes | 13 |
-| [Gemini CLI](https://github.com/google-gemini/gemini-cli) | Yes | Yes | 13 |
-| [Cursor](https://cursor.com) | Yes | Yes | 9 |
-| [Kiro](https://kiro.dev) | Yes | Yes | 14 |
-| [OpenCode](https://opencode.ai) | Yes | Yes | 13 |
-| [Factory Droid](https://factory.ai) | Yes | Yes | 9 |
-| [Amp](https://ampcode.com) | Yes | Yes | 2 |
-| [Cline](https://cline.bot) | Yes | Yes | 7 |
+| Tool | Hooks | MCP | Agents | Skills | Rules |
+|------|:-----:|:---:|:------:|:------:|:-----:|
+| [Claude Code](https://docs.anthropic.com/en/docs/claude-code) | &check; | &check; | &check; | &check; | &check; |
+| [Codex CLI](https://github.com/openai/codex) | | &check; | | &check; | &check; |
+| [Gemini CLI](https://github.com/google-gemini/gemini-cli) | &check; | &check; | &check; | &check; | &check; |
+| [Cursor](https://cursor.com) | &check; | &check; | &check; | &check; | &check; |
+| [Kiro](https://kiro.dev) | &check; | &check; | &check; | &check; | &check; |
+| [OpenCode](https://opencode.ai) | &check; | &check; | | &check; | &check; |
+| [Cline](https://cline.bot) | &check; | &check; | &check; | &check; | &check; |
+| [Amp](https://ampcode.com) | | &check; | | &check; | &check; |
+| [Factory Droid](https://factory.ai) | &check; | &check; | &check; | &check; | &check; |
+| [VS Code / Copilot](https://code.visualstudio.com) | &ast; | &check; | &check; | &check; | &check; |
+| [Continue](https://continue.dev) | | | | &check; | &check; |
+| [Roo Code](https://roocode.com) | | &check; | &check; | &check; | &check; |
+| [Windsurf](https://windsurf.com) | | &check; | | &check; | &check; |
 
-### Compatible tools (no separate adapter needed)
-
-| Tool | Notes |
-|------|-------|
-| [VS Code / Copilot](https://code.visualstudio.com) | VS Code 1.109+ agent hooks use the same format as Claude Code. The Claude Code adapter output works directly in VS Code via `.claude/settings.json` or `.github/hooks/*.json`. |
+<sub>&ast; VS Code 1.109+ agent hooks use the Claude Code format — the Claude Code adapter output works directly.</sub>
 
 ## Quick start
 
+### Unified CLI
+
 ```bash
-# Install
+# Install everything
+npm i -D @premierstudio/ai-tools
+
+# Detect installed tools, generate configs, install them
+ai-tools detect
+ai-tools hooks generate && ai-tools hooks install
+ai-tools mcp generate && ai-tools mcp install
+ai-tools skills generate && ai-tools skills install
+ai-tools agents generate && ai-tools agents install
+ai-tools rules generate && ai-tools rules install
+```
+
+### Or install individual engines
+
+```bash
+# Just hooks
 npm i -D @premierstudio/ai-hooks
-
-# Initialize config
 npx ai-hooks init
-
-# Detect installed tools and generate hooks
 npx ai-hooks detect --verbose
 npx ai-hooks generate
 npx ai-hooks install
+
+# Just MCP servers
+npm i -D @premierstudio/ai-mcp
+npx ai-mcp init
+npx ai-mcp generate
+npx ai-mcp install
+
+# Just rules
+npm i -D @premierstudio/ai-rules
+npx ai-rules init
+npx ai-rules generate
+npx ai-rules install
 ```
 
-## Config example
+Each engine follows the same CLI pattern: `init` → `detect` → `generate` → `install`. Use `import` or `sync` to pull existing tool-specific configs back into the universal format.
+
+## Config examples
+
+### Hooks
 
 ```ts
 // ai-hooks.config.ts
@@ -121,18 +162,53 @@ export default defineConfig({
 });
 ```
 
-## Built-in safety hooks
+### MCP servers
 
-ai-hooks ships with 4 hooks you can use immediately:
+```ts
+// ai-mcp.config.ts
+import { defineConfig } from "@premierstudio/ai-mcp";
 
-| Hook | Phase | What it does |
-|------|-------|-------------|
-| `block-dangerous-commands` | before | Blocks `rm -rf /`, `DROP DATABASE`, fork bombs |
-| `scan-secrets` | before | Detects API keys, tokens, private keys in file writes |
-| `protect-sensitive-files` | before | Prevents writes to `.env`, `credentials.json`, SSH keys |
-| `audit-shell` | after | Records command, exit code, duration, tool name |
+export default defineConfig({
+  servers: [
+    {
+      name: "filesystem",
+      command: "npx",
+      args: ["-y", "@modelcontextprotocol/server-filesystem", "./src"],
+      transport: "stdio",
+    },
+  ],
+});
+```
 
-## Universal event model
+### Rules
+
+```ts
+// ai-rules.config.ts
+import { defineRulesConfig } from "@premierstudio/ai-rules";
+
+export default defineRulesConfig({
+  rules: [
+    {
+      name: "typescript-strict",
+      content: "Always use strict TypeScript. No `any` types.",
+      scope: "always",
+      priority: 1,
+    },
+    {
+      name: "test-conventions",
+      content: "Co-locate tests as *.test.ts next to source files.",
+      scope: "glob",
+      globs: ["**/*.test.ts"],
+    },
+  ],
+});
+```
+
+## Hooks engine
+
+The hooks engine is the most powerful package — an Express.js-style middleware chain for AI tool actions.
+
+### Universal event model
 
 15 event types across the full AI tool lifecycle:
 
@@ -141,14 +217,23 @@ ai-hooks ships with 4 hooks you can use immediately:
 | Session | `session:start` | `session:end` |
 | Prompt | `prompt:submit` | `prompt:response` |
 | Tool | `tool:before` | `tool:after` |
-| File | `file:write`, `file:edit`, `file:delete` | `file:read` |
+| File | `file:read`, `file:write`, `file:edit`, `file:delete` | |
 | Shell | `shell:before` | `shell:after` |
 | MCP | `mcp:before` | `mcp:after` |
-| System | — | `notification` |
+| System | | `notification` |
 
-## Using as a library
+### Built-in safety hooks
 
-If you're building a platform that orchestrates AI agents — a PM tool, CI system, or custom control plane — import the engine directly:
+| Hook | Phase | What it does |
+|------|-------|-------------|
+| `block-dangerous-commands` | before | Blocks `rm -rf /`, `DROP DATABASE`, fork bombs |
+| `scan-secrets` | before | Detects API keys, tokens, private keys in file writes |
+| `protect-sensitive-files` | before | Prevents writes to `.env`, `credentials.json`, SSH keys |
+| `audit-shell` | after | Records command, exit code, duration, tool name |
+
+### Using as a library
+
+Import the engine directly for building platforms that orchestrate AI agents:
 
 ```ts
 import { HookEngine, builtinHooks } from "@premierstudio/ai-hooks";
@@ -158,30 +243,30 @@ const engine = new HookEngine({
   settings: { failMode: "closed" },
 });
 
-// Check if an action should be blocked
 const result = await engine.isBlocked(event, { name: "my-platform", version: "1.0" });
 if (result.blocked) {
   console.log(`Blocked: ${result.reason}`);
 }
 ```
 
-This gives your platform a standard interface for controlling what AI agents can do, regardless of which tool (Claude Code, Codex, Cursor, etc.) the developer is running.
-
-## Packages
-
-| Package | Description |
-|---------|------------|
-| `@premierstudio/ai-hooks` | Core engine, 9 built-in adapters, CLI, types, config loader |
-| `@premierstudio/plannable` | CLI + preset for connecting AI tools to [Plannable](https://plannable.ai) |
-
 ## Development
 
 ```bash
 git clone https://github.com/PremierStudio/ai-hooks.git
-cd ai-hooks
+cd ai-tools
 npm install
 npm run check   # lint + format + typecheck + test
 ```
+
+| Command | What it does |
+|---------|-------------|
+| `npm run check` | Full verification: lint + format + typecheck + test |
+| `npm run build` | Build all packages via Turborepo |
+| `npm test` | Run all tests (vitest) |
+| `npx vitest run packages/hooks` | Test a single package |
+| `npm run lint` | oxlint |
+| `npm run fmt` | oxfmt (auto-format) |
+| `npm run typecheck` | tsc across all packages |
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for adding adapters and submitting PRs.
 

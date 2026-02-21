@@ -123,7 +123,7 @@ describe("CursorRuleAdapter", () => {
         const path = String(p);
         return path.includes(".cursor/rules") || path.includes("RULE.md");
       });
-      vi.mocked(readdir).mockResolvedValue(["typescript"] as unknown);
+      vi.mocked(readdir).mockResolvedValue(["typescript"] as never);
       vi.mocked(readFile).mockResolvedValue(
         '---\ndescription: TS rules\nalwaysApply: false\nglobs:\n  - "*.ts"\n---\n\nUse strict TS.',
       );
@@ -137,7 +137,7 @@ describe("CursorRuleAdapter", () => {
 
     it("parses alwaysApply true as always scope", async () => {
       vi.mocked(existsSync).mockReturnValue(true);
-      vi.mocked(readdir).mockResolvedValue(["general"] as unknown);
+      vi.mocked(readdir).mockResolvedValue(["general"] as never);
       vi.mocked(readFile).mockResolvedValue(
         "---\ndescription: General\nalwaysApply: true\n---\n\nBe concise.",
       );
@@ -149,7 +149,7 @@ describe("CursorRuleAdapter", () => {
 
     it("parses alwaysApply false without globs as manual scope", async () => {
       vi.mocked(existsSync).mockReturnValue(true);
-      vi.mocked(readdir).mockResolvedValue(["manual"] as unknown);
+      vi.mocked(readdir).mockResolvedValue(["manual"] as never);
       vi.mocked(readFile).mockResolvedValue(
         "---\ndescription: Manual\nalwaysApply: false\n---\n\nManual rule.",
       );
@@ -167,7 +167,7 @@ describe("CursorRuleAdapter", () => {
 
     it("imports rule without frontmatter", async () => {
       vi.mocked(existsSync).mockReturnValue(true);
-      vi.mocked(readdir).mockResolvedValue(["plain"] as unknown);
+      vi.mocked(readdir).mockResolvedValue(["plain"] as never);
       vi.mocked(readFile).mockResolvedValue("Just plain content.");
 
       const result = await adapter.import("/test");
@@ -183,7 +183,7 @@ describe("CursorRuleAdapter", () => {
         if (path.includes("RULE.md")) return false;
         return path.includes(".cursor/rules");
       });
-      vi.mocked(readdir).mockResolvedValue(["norule"] as unknown);
+      vi.mocked(readdir).mockResolvedValue(["norule"] as never);
 
       const result = await adapter.import("/test");
       expect(result).toEqual([]);

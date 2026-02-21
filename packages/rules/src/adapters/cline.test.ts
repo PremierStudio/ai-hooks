@@ -70,7 +70,7 @@ describe("ClineRuleAdapter", () => {
 
     it("imports rules with heading", async () => {
       vi.mocked(existsSync).mockReturnValue(true);
-      vi.mocked(readdir).mockResolvedValue(["ts.md"] as unknown);
+      vi.mocked(readdir).mockResolvedValue(["ts.md"] as never);
       vi.mocked(readFile).mockResolvedValue("# TypeScript Rules\n\nUse strict TS.");
       const result = await adapter.import("/test");
       expect(result).toHaveLength(1);
@@ -81,7 +81,7 @@ describe("ClineRuleAdapter", () => {
 
     it("imports rules without heading", async () => {
       vi.mocked(existsSync).mockReturnValue(true);
-      vi.mocked(readdir).mockResolvedValue(["plain.md"] as unknown);
+      vi.mocked(readdir).mockResolvedValue(["plain.md"] as never);
       vi.mocked(readFile).mockResolvedValue("Just content.");
       const result = await adapter.import("/test");
       expect(result).toHaveLength(1);
@@ -92,7 +92,7 @@ describe("ClineRuleAdapter", () => {
 
     it("skips non-md files", async () => {
       vi.mocked(existsSync).mockReturnValue(true);
-      vi.mocked(readdir).mockResolvedValue(["readme.txt", "rule.md"] as unknown);
+      vi.mocked(readdir).mockResolvedValue(["readme.txt", "rule.md"] as never);
       vi.mocked(readFile).mockResolvedValue("Content");
       const result = await adapter.import("/test");
       expect(result).toHaveLength(1);

@@ -50,7 +50,7 @@ describe("CodexRuleAdapter", () => {
 
     it("imports rules", async () => {
       vi.mocked(existsSync).mockReturnValue(true);
-      vi.mocked(readdir).mockResolvedValue(["rule.md"] as unknown);
+      vi.mocked(readdir).mockResolvedValue(["rule.md"] as never);
       vi.mocked(readFile).mockResolvedValue("# My Rule\n\nContent here.");
       const result = await adapter.import("/test");
       expect(result[0].name).toBe("My Rule");
@@ -59,7 +59,7 @@ describe("CodexRuleAdapter", () => {
 
     it("skips non-markdown files", async () => {
       vi.mocked(existsSync).mockReturnValue(true);
-      vi.mocked(readdir).mockResolvedValue(["readme.txt", "rule.md"] as unknown);
+      vi.mocked(readdir).mockResolvedValue(["readme.txt", "rule.md"] as never);
       vi.mocked(readFile).mockResolvedValue("# Skill\n\nContent");
       const result = await adapter.import("/test");
       expect(result).toHaveLength(1);
@@ -67,7 +67,7 @@ describe("CodexRuleAdapter", () => {
 
     it("imports rule without heading", async () => {
       vi.mocked(existsSync).mockReturnValue(true);
-      vi.mocked(readdir).mockResolvedValue(["plain.md"] as unknown);
+      vi.mocked(readdir).mockResolvedValue(["plain.md"] as never);
       vi.mocked(readFile).mockResolvedValue("Just content, no heading");
       const result = await adapter.import("/test");
       expect(result[0].name).toBe("plain");

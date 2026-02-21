@@ -127,7 +127,7 @@ describe("ClaudeCodeRuleAdapter", () => {
 
     it("imports rules with frontmatter", async () => {
       vi.mocked(existsSync).mockReturnValue(true);
-      vi.mocked(readdir).mockResolvedValue(["ts.md"] as unknown);
+      vi.mocked(readdir).mockResolvedValue(["ts.md"] as never);
       vi.mocked(readFile).mockResolvedValue(
         '---\ndescription: TS rules\nglobs:\n  - "*.ts"\n---\n\nUse strict TS.',
       );
@@ -141,7 +141,7 @@ describe("ClaudeCodeRuleAdapter", () => {
 
     it("imports rules without frontmatter", async () => {
       vi.mocked(existsSync).mockReturnValue(true);
-      vi.mocked(readdir).mockResolvedValue(["simple.md"] as unknown);
+      vi.mocked(readdir).mockResolvedValue(["simple.md"] as never);
       vi.mocked(readFile).mockResolvedValue("Just plain content.");
       const result = await adapter.import("/test");
       expect(result).toHaveLength(1);
@@ -158,7 +158,7 @@ describe("ClaudeCodeRuleAdapter", () => {
 
     it("imports rules with frontmatter but no globs", async () => {
       vi.mocked(existsSync).mockReturnValue(true);
-      vi.mocked(readdir).mockResolvedValue(["general.md"] as unknown);
+      vi.mocked(readdir).mockResolvedValue(["general.md"] as never);
       vi.mocked(readFile).mockResolvedValue("---\ndescription: General rules\n---\n\nBe concise.");
       const result = await adapter.import("/test");
       expect(result).toHaveLength(1);
@@ -170,7 +170,7 @@ describe("ClaudeCodeRuleAdapter", () => {
 
     it("skips non-md files", async () => {
       vi.mocked(existsSync).mockReturnValue(true);
-      vi.mocked(readdir).mockResolvedValue(["readme.txt", "rule.md"] as unknown);
+      vi.mocked(readdir).mockResolvedValue(["readme.txt", "rule.md"] as never);
       vi.mocked(readFile).mockResolvedValue("Content");
       const result = await adapter.import("/test");
       expect(result).toHaveLength(1);

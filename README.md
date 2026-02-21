@@ -78,7 +78,7 @@ graph TD
 | [Gemini CLI](https://github.com/google-gemini/gemini-cli) | &check; | &check; | &check; | &check; | &check; |
 | [Cursor](https://cursor.com) | &check; | &check; | &check; | &check; | &check; |
 | [Kiro](https://kiro.dev) | &check; | &check; | &check; | &check; | &check; |
-| [OpenCode](https://opencode.ai) | &check; | &check; | | &check; | &check; |
+| [OpenCode](https://opencode.ai) | &check; | &check; | &check; | &check; | &check; |
 | [Cline](https://cline.bot) | &check; | &check; | &check; | &check; | &check; |
 | [Amp](https://ampcode.com) | | &check; | | &check; | &check; |
 | [Factory Droid](https://factory.ai) | &check; | &check; | &check; | &check; | &check; |
